@@ -398,6 +398,10 @@ namespace Tatelier.Score.Play.Chart.TJA
 
 		int SetBranchScore(NotePivotInfo info, string[] args, BranchType type)
 		{
+			if(info.BranchPivot == null)
+            {
+				throw new TJAParseException("#BRANCHSTART\nを宣言する前に\n#N, #E, #M\nを宣言しないでください。\n\n");
+            }
 			info.PivotMicrosec = info.BranchPivot.PivotMicrosec;
 
 			info.PrevNote = info.BranchPivot.PrevNote;
