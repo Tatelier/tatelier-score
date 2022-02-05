@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace Tatelier.Score.Play.Chart.TJA
 {
-	[DebuggerDisplay("{NoteType}, Time: {StartTimeMillisec}～{FinishTimeMillisec}")]
+	[DebuggerDisplay("{NoteType}, Time: {StartMillisec}～{FinishMillisec}")]
 	public class Note : INote
 	{
 		INote INote.PrevNote => PrevNote;
