@@ -80,9 +80,22 @@ namespace Tatelier.Score.Play.Chart.TJA
 		public int ScoreDiffPoint = 100;
 
 		/// <summary>
+		/// 風船打数リスト
+		/// </summary>
+		public int[] BalloonCountList;
+
+		/// <summary>
 		/// すべての音符
 		/// </summary>
 		public List<INote> Notes = new List<INote>();
+
+		public IEnumerable<INote> BalloonNotes
+        {
+            get
+			{
+				return Notes.Where(v => v.NoteType == NoteType.Balloon);
+            }
+        }
 
 		/// <summary>
 		/// すべての小節
@@ -93,11 +106,6 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// 分岐毎の譜面管理
 		/// </summary>
 		public BranchScoreControl BranchScoreControl = new BranchScoreControl();
-
-		/// <summary>
-		/// 風船管理情報
-		/// </summary>
-		public BalloonControlInfo BalloonControlInfo = new BalloonControlInfo();
 
 		/// <summary>
 		/// 分岐演奏情報リスト
@@ -487,6 +495,8 @@ namespace Tatelier.Score.Play.Chart.TJA
 				//{ "LEVELHOLD", NoteInfo.TryBARLINEON }
 			};
 			#endregion
+
+			BalloonCountList = info.BalloonCountList.ToArray();
 
 			OffsetMillisec = (int)(info.OffsetMillisec * 1000);
 
@@ -902,9 +912,13 @@ namespace Tatelier.Score.Play.Chart.TJA
 												if (notePivotInfo.NowBalloonIndex < notePivotInfo.BalloonValueList.Count)
 												{
 													cnt = notePivotInfo.BalloonValueList[notePivotInfo.NowBalloonIndex];
+													note.SpecialData = new BalloonData()
+													{
+														Count = cnt,
+														Index = notePivotInfo.NowBalloonIndex
+													};
 													notePivotInfo.NowBalloonIndex++;
 												}
-												BalloonControlInfo.Add((int)notePivotInfo.PivotMillisec, cnt, notePivotInfo.BranchType);
 											}
 										}
 

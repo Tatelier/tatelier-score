@@ -35,7 +35,7 @@ namespace Tatelier.Score.Play.Chart
 		/// 演奏用
 		/// 時間帯毎に分岐種別を管理するマップ
 		/// T1: int 開始時間(ms) 
-		/// T2: BrancyType 分岐種別
+		/// T2: BranchType 分岐種別
 		/// 
 		/// ※演奏時の途中結果でBranchTypeが更新される
 		/// </summary>

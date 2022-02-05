@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Const.cs" />
-    <Compile Include="Play\Chart\BalloonControlInfo.cs" />
+    <Compile Include="Play\Chart\BalloonData.cs" />
     <Compile Include="Play\Chart\BPMInfo.cs" />
     <Compile Include="Play\Chart\BranchPlayInfo.cs" />
     <Compile Include="Play\Chart\BranchScoreControl.cs" />
@@ -83,6 +83,7 @@
     <Compile Include="Play\Chart\TJA\Note.cs" />
     <Compile Include="Play\Chart\TJA\Score.cs" />
     <Compile Include="Play\Chart\TJA\TJA.cs" />
+    <Compile Include="Play\Chart\TJA\TJAParseException.cs" />
     <Compile Include="Play\Chart\Utility.cs" />
     <Compile Include="Play\JudgeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
