@@ -69,6 +69,11 @@ namespace Tatelier.Score.Play.Chart.TJA
 		public double HBScrollFinishPointX { get; set; } = 0;
 
 		/// <summary>
+		/// 特別なデータ
+		/// </summary>
+		public object SpecialData { get; set; } = null;
+
+		/// <summary>
 		/// 描画開始時間関連を設定する
 		/// </summary>
 		/// <param name="noteAreaWidth">描画エリア全体の幅</param>

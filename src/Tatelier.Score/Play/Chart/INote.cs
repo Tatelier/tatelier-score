@@ -82,6 +82,11 @@ namespace Tatelier.Score.Play.Chart
 		bool Visible { get; set; }
 
 		/// <summary>
+		/// 
+		/// </summary>
+		object SpecialData { get; set; }
+
+		/// <summary>
 		/// 描画開始時間関連を設定する
 		/// </summary>
 		/// <param name="noteAreaWidth">描画エリア全体の幅</param>
