@@ -39,6 +39,11 @@ namespace Tatelier.Score.Play.Chart.TJA
 		public int StartDrawTimeMillisec = int.MinValue;
 
 		/// <summary>
+		/// 描画終了時間(ms)
+		/// </summary>
+		public int FinishDrawTimeMillisec = int.MaxValue;
+
+		/// <summary>
 		/// 1msで動く座標量
 		/// </summary>
 		public float MovementPerMillisec { get; set; }
@@ -60,27 +65,34 @@ namespace Tatelier.Score.Play.Chart.TJA
 
         #region INoteSystem
         int INoteSystem.FinishMillisec => StartMillisec;
-        #endregion
+		#endregion
 
-        /// <summary>
-        /// 描画開始時間関連を設定する
-        /// </summary>
-        /// <param name="noteAreaWidth">音符描画エリア全体の幅</param>
-        /// <param name="screenWidth">スクリーンの幅</param>
-        /// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
-        public void SetDrawTime(float noteAreaWidth, float screenWidth, float finishDrawPointX, float playOptionScrollSpeed)
+
+		/// <summary>
+		/// 描画開始時間関連を設定する
+		/// </summary>
+		/// <param name="oneMeasureWidth">4/4拍子の1小節分を描画するために必要な幅</param>
+		/// <param name="startDrawPointX">描画開始座標X</param>
+		/// <param name="finishDrawPointX">描画終了座標X</param>
+		/// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
+		public void SetDrawTime(float oneMeasureWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed)
 		{
 			var scrspd = (ScrollSpeedInfo.ScrollSpeed * playOptionScrollSpeed);
-			var area = noteAreaWidth * scrspd;
+			var area = (oneMeasureWidth * scrspd);
 
-			StartDrawTimeMillisec = (int)(StartMillisec - screenWidth * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
+			if (scrspd < 0)
+			{
+				StartDrawTimeMillisec = (int)(StartMillisec - finishDrawPointX * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
+				FinishDrawTimeMillisec = (int)(StartMillisec - startDrawPointX * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
+			}
+			else
+			{
+				StartDrawTimeMillisec = (int)(StartMillisec - startDrawPointX * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
+				FinishDrawTimeMillisec = (int)(StartMillisec - finishDrawPointX * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
+			}
+
 			MovementPerMillisec = (float)BPMInfo.GetDivision(area);
 		}
-
-        void IMeasureLine.SetDrawTime(float noteAreaWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// コンストラクタ
