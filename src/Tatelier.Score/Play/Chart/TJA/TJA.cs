@@ -96,16 +96,17 @@ namespace Tatelier.Score.Play.Chart.TJA
 		}
 
 		/// <summary>
-		/// 描画データを設定する
+		/// 描画開始時間関連を設定する
 		/// </summary>
-		/// <param name="noteAreaWidth">音符描画領域の幅</param>
-		/// <param name="screenWidth">スクリーン領域の幅</param>
-		/// <param name="playOptionScrollSpeed">演奏オプションのスクロールスピード</param>
-		public void SetDrawTime(float noteAreaWidth, float startDrawWidth, float finishDrawPointX, float playOptionScrollSpeed)
+		/// <param name="oneMeasureWidth">4/4拍子の1小節分を描画するために必要な幅</param>
+		/// <param name="startDrawPointX">描画開始座標X</param>
+		/// <param name="finishDrawPointX">描画終了座標X</param>
+		/// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
+		public void SetDrawTime(float oneMeasureWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed)
 		{
 			foreach (var item in Scores)
 			{
-				item.SetDrawTime(noteAreaWidth, startDrawWidth, finishDrawPointX, playOptionScrollSpeed);
+				item.SetDrawTime(oneMeasureWidth, startDrawPointX, finishDrawPointX, playOptionScrollSpeed);
 			}
 		}
 
