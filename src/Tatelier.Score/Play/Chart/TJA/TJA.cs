@@ -243,6 +243,21 @@ namespace Tatelier.Score.Play.Chart.TJA
 						}
 					}
 
+					if(nowReadScore 
+						&& sb.Length > 0)
+					{
+						nowReadScore = false;
+						score.Add(new Score(sb, new ScoreInfo()
+						{
+							CourseName = nowCourse,
+							StartBPM = StartBPM,
+							OffsetMillisec = OffsetMillisec,
+							HasHBScroll = hasHBScroll,
+							BalloonCountList = ballonCountArray
+						}));
+						sb.Clear();
+					}
+
 					sr.BaseStream.Seek(0, SeekOrigin.Begin);
 				}
 			}

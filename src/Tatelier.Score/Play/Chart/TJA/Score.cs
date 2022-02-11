@@ -603,6 +603,20 @@ namespace Tatelier.Score.Play.Chart.TJA
 
 			CreateMeasure(notePivotInfo, sharpMethodMap, measureSB);
 
+            switch (notePivotInfo.PrevNote.NoteType)
+            {
+				case NoteType.Roll:
+				case NoteType.RollBig:
+				case NoteType.Balloon:
+					{
+						var note = new Note(NoteType.End, notePivotInfo);
+
+						notePivotInfo.PrevNote = note;
+						notePivotInfo.CurrentBranchScoreItem.AddNote(note);
+					}
+					break;
+            }
+
 			BalloonCountList = notePivotInfo.BalloonValueList.ToArray();
 			BranchScoreControl.Build();
 			Notes = new List<INote>(BranchScoreControl.EnumratesAllNotes());

@@ -29,7 +29,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// <summary>
 		/// 開始時間(ms)
 		/// </summary>
-		public int StartMillisec { get; private set; }
+		public int StartMillisec { get; set; }
 
 		/// <summary>
 		/// 描画開始時間(ms)
@@ -64,7 +64,11 @@ namespace Tatelier.Score.Play.Chart.TJA
 		public HBScrollDrawDataItem HBScrollDrawDataItem { get; set; }
 
         #region INoteSystem
-        int INoteSystem.FinishMillisec => StartMillisec;
+        int INoteSystem.FinishMillisec
+		{
+			get => StartMillisec;
+			set => StartMillisec = value;
+		}
 		#endregion
 
 

@@ -14,11 +14,11 @@ namespace Tatelier.Score.Play.Chart
 		/// <summary>
 		/// 開始時間(ms)
 		/// </summary>
-		int StartMillisec { get; }
+		int StartMillisec { get; set; }
 
 		/// <summary>
 		/// 開始時間(ms)
 		/// </summary>
-		int FinishMillisec { get; }
+		int FinishMillisec { get; set; }
 	}
 }
