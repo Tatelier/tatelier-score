@@ -50,13 +50,13 @@ namespace Tatelier.Score.Play.Chart
 		bool Visible { get; }
 
 		/// <summary>
-		/// 描画開始時間関連を設定する
+		/// 譜面描画用データを構築する
 		/// </summary>
 		/// <param name="oneMeasureWidth">4/4拍子の1小節分を描画するために必要な幅</param>
 		/// <param name="startDrawPointX">描画開始座標X</param>
 		/// <param name="finishDrawPointX">描画終了座標X</param>
 		/// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
-		void SetDrawTime(float oneMeasureWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed);
+		void BuildScoreRendererData(float oneMeasureWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed);
 
 	}
 }
