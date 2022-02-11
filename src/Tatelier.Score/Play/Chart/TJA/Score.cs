@@ -633,14 +633,16 @@ namespace Tatelier.Score.Play.Chart.TJA
 
 					foreach (var note in bpmInfo.NoteList)
 					{
-						double per = (double)(note.StartMillisec - dataItem.StartMillisec) / (dataItem.EndMillisec - dataItem.StartMillisec);
-						note.HBScrollStartPointX = dataItem.StartPoint + (dataItem.EndPoint - dataItem.StartPoint) * per;
+						double per = dataItem.GetElapsedRate(note.StartMillisec);
+						note.HBScrollStartPointX = dataItem.GetHBScrollPivotX(per);
+						note.HBScrollDrawDataItem = dataItem;
 					}
 
 					foreach(var measure in bpmInfo.MeasureLineList)
 					{
-						double per = (double)(measure.StartMillisec - dataItem.StartMillisec) / (dataItem.EndMillisec - dataItem.StartMillisec);
-						measure.HBScrollStartPointX = dataItem.StartPoint + (dataItem.EndPoint - dataItem.StartPoint) * per;
+						double per = dataItem.GetElapsedRate(measure.StartMillisec);
+						measure.HBScrollStartPointX = dataItem.GetHBScrollPivotX(per);
+						measure.HBScrollDrawDataItem = dataItem;
 					}
 				}
 			}

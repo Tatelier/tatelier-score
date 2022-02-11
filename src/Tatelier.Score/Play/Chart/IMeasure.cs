@@ -30,6 +30,11 @@ namespace Tatelier.Score.Play.Chart
 		double HBScrollStartPointX { get; set; }
 
 		/// <summary>
+		/// HBSCROLL用描画データ
+		/// </summary>
+		HBScrollDrawDataItem HBScrollDrawDataItem { get; set; }
+
+		/// <summary>
 		/// 1msで動く座標量
 		/// </summary>
 		float MovementPerMillisec { get; set; }

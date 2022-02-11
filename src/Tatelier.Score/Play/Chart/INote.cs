@@ -58,6 +58,11 @@ namespace Tatelier.Score.Play.Chart
 		ScrollSpeedInfo ScrollSpeedInfo { get; }
 
 		/// <summary>
+		/// HBSCROLL用描画データ
+		/// </summary>
+		HBScrollDrawDataItem HBScrollDrawDataItem { get; set; }
+
+		/// <summary>
 		/// HBSCROLL用、開始X座標
 		/// </summary>
 		double HBScrollStartPointX { get; set; }

@@ -117,11 +117,16 @@ namespace Tatelier.Score.Play.Chart.TJA
 		public bool Visible { get; set; } = true;
 
 		/// <summary>
-		/// コンストラクタ
+		/// HBSCROLL用描画データ
 		/// </summary>
-		/// <param name="noteType">音符種別</param>
-		/// <param name="info"></param>
-		public Note(NoteType noteType, NotePivotInfo info)
+		public HBScrollDrawDataItem HBScrollDrawDataItem { get; set; }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="noteType">音符種別</param>
+        /// <param name="info"></param>
+        public Note(NoteType noteType, NotePivotInfo info)
 		{
 			Id = info.NoteId++;
 			NoteType = noteType;

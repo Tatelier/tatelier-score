@@ -11,8 +11,6 @@ namespace Tatelier.Score.Play.Chart.TJA
 	[DebuggerDisplay("Time: {StartMillisec}, HBSPoint: {HBScrollStartPointX}")]
 	public class MeasureLine : IMeasureLine
 	{
-
-
 		/// <summary>
 		/// 小節線種別
 		/// </summary>
@@ -62,6 +60,8 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// HBSCROLL用、開始X座標
 		/// </summary>
 		public double HBScrollStartPointX { get; set; } = 0;
+
+		public HBScrollDrawDataItem HBScrollDrawDataItem { get; set; }
 
         #region INoteSystem
         int INoteSystem.FinishMillisec => StartMillisec;
