@@ -11,6 +11,8 @@ namespace Tatelier.Score.Play.Chart.TJA
 	[DebuggerDisplay("Time: {StartMillisec}, HBSPoint: {HBScrollStartPointX}")]
 	public class MeasureLine : IMeasureLine
 	{
+
+
 		/// <summary>
 		/// 小節線種別
 		/// </summary>
@@ -39,7 +41,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// <summary>
 		/// 1msで動く座標量
 		/// </summary>
-		public float Mag1msForDraw { get; set; }
+		public float MovementPerMillisec { get; set; }
 
 		/// <summary>
 		/// BPM情報
@@ -56,26 +58,35 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// </summary>
 		public double HBScrollStartPointX { get; set; } = 0;
 
-		/// <summary>
-		/// 描画開始時間関連を設定する
-		/// </summary>
-		/// <param name="noteAreaWidth">音符描画エリア全体の幅</param>
-		/// <param name="screenWidth">スクリーンの幅</param>
-		/// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
-		public void SetDrawTime(float noteAreaWidth, float screenWidth, float playOptionScrollSpeed)
+        #region INoteSystem
+        int INoteSystem.FinishMillisec => StartMillisec;
+        #endregion
+
+        /// <summary>
+        /// 描画開始時間関連を設定する
+        /// </summary>
+        /// <param name="noteAreaWidth">音符描画エリア全体の幅</param>
+        /// <param name="screenWidth">スクリーンの幅</param>
+        /// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
+        public void SetDrawTime(float noteAreaWidth, float screenWidth, float finishDrawPointX, float playOptionScrollSpeed)
 		{
 			var scrspd = (ScrollSpeedInfo.ScrollSpeed * playOptionScrollSpeed);
 			var area = noteAreaWidth * scrspd;
 
 			StartDrawTimeMillisec = (int)(StartMillisec - screenWidth * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
-			Mag1msForDraw = (float)BPMInfo.GetDivision(area);
+			MovementPerMillisec = (float)BPMInfo.GetDivision(area);
 		}
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="info"></param>
-		public MeasureLine(NotePivotInfo info)
+        void IMeasureLine.SetDrawTime(float noteAreaWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info"></param>
+        public MeasureLine(NotePivotInfo info)
 		{
 			Id = info.MeasureId++;
 			if (info.BranchPivot == null)

@@ -25,6 +25,26 @@ namespace Tatelier.Score.Play.Chart
 		/// </summary>
 		public double EndPoint;
 
+		public bool IsApplicable(INote note)
+        {
+			return (StartMillisec <= note.StartMillisec && note.FinishMillisec < EndMillisec);
+		}
+
+		public bool IsApplicable(IMeasureLine line)
+		{
+			return (StartMillisec <= line.StartMillisec && line.StartMillisec < EndMillisec);
+		}
+
+		public double GetHBScrollPivotX(double per)
+        {
+			return StartPoint + (EndPoint - StartPoint) * per;
+		}
+
+		public double GetElapsedRate(int nowMillisec)
+        {
+			return (double)(nowMillisec - StartMillisec) / (EndMillisec - StartMillisec);
+		}
+
 		public HBScrollDrawDataItem()
 		{
 

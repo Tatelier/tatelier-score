@@ -72,6 +72,7 @@
     <Compile Include="Play\Chart\HBScrollDrawDataItem.cs" />
     <Compile Include="Play\Chart\IMeasure.cs" />
     <Compile Include="Play\Chart\INote.cs" />
+    <Compile Include="Play\Chart\INoteSystem.cs" />
     <Compile Include="Play\Chart\MeasureInfo.cs" />
     <Compile Include="Play\Chart\MeasureLineType.cs" />
     <Compile Include="Play\Chart\NotePivotInfo.cs" />

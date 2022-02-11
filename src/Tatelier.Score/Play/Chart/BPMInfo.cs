@@ -34,6 +34,11 @@ namespace Tatelier.Score.Play.Chart
 		public double OneMeasureMillisec { get; private set; }
 
 		/// <summary>
+		/// 1msの移動量
+		/// </summary>
+		public float MovementPerMillisec { get; private set; } = 0.0F;
+
+		/// <summary>
 		/// 音符リスト
 		/// </summary>
 		public IReadOnlyList<INote> NoteList => noteList;

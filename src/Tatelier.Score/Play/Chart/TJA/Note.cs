@@ -54,9 +54,14 @@ namespace Tatelier.Score.Play.Chart.TJA
 		public int StartDrawMillisec { get; set; } = int.MinValue;
 
 		/// <summary>
+		/// 描画
+		/// </summary>
+		public int FinishDrawMillisec { get; set; } = int.MaxValue;
+
+		/// <summary>
 		/// 1msで動く座標量
 		/// </summary>
-		public float Mag1msForDraw { get; set; }
+		public float MovementPerMillisec { get; set; }
 
 		/// <summary>
 		/// HBSCROLL用の音符の開始位置
@@ -76,15 +81,26 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// <summary>
 		/// 描画開始時間関連を設定する
 		/// </summary>
-		/// <param name="noteAreaWidth">描画エリア全体の幅</param>
-		/// <param name="screenWidth">スクリーン領域の幅</param>
+		/// <param name="oneMeasureWidth">4/4拍子の1小節分を描画するために必要な幅</param>
+		/// <param name="startDrawPointX">スクリーン領域の幅</param>
 		/// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
-		public void SetDrawTime(float noteAreaWidth, float screenWidth, float playOptionScrollSpeed)
+		public void SetDrawTime(float oneMeasureWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed)
 		{
 			var scrspd = (ScrollSpeedInfo.ScrollSpeed * playOptionScrollSpeed);
-			var area = (noteAreaWidth * scrspd);
-			StartDrawMillisec = (int)(StartMillisec - screenWidth * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
-			Mag1msForDraw = (float)BPMInfo.GetDivision(area);
+			var area = (oneMeasureWidth * scrspd);
+			
+			if (scrspd < 0)
+			{
+				StartDrawMillisec = (int)(StartMillisec - finishDrawPointX * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
+				FinishDrawMillisec = (int)(FinishMillisec - startDrawPointX * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
+			}
+            else
+			{
+				StartDrawMillisec = (int)(StartMillisec - startDrawPointX * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
+				FinishDrawMillisec = (int)(FinishMillisec - finishDrawPointX * Math.Abs(BPMInfo.OneMeasureMillisec) / area);
+			}
+
+			MovementPerMillisec = (float)BPMInfo.GetDivision(area);
 		}
 
 		/// <summary>

@@ -101,11 +101,11 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// <param name="noteAreaWidth">音符描画領域の幅</param>
 		/// <param name="screenWidth">スクリーン領域の幅</param>
 		/// <param name="playOptionScrollSpeed">演奏オプションのスクロールスピード</param>
-		public void SetDrawTime(float noteAreaWidth, float screenWidth, float playOptionScrollSpeed)
+		public void SetDrawTime(float noteAreaWidth, float startDrawWidth, float finishDrawPointX, float playOptionScrollSpeed)
 		{
 			foreach (var item in Scores)
 			{
-				item.SetDrawTime(noteAreaWidth, screenWidth, playOptionScrollSpeed);
+				item.SetDrawTime(noteAreaWidth, startDrawWidth, finishDrawPointX, playOptionScrollSpeed);
 			}
 		}
 

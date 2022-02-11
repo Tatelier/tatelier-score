@@ -603,6 +603,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 
 			CreateMeasure(notePivotInfo, sharpMethodMap, measureSB);
 
+			BalloonCountList = notePivotInfo.BalloonValueList.ToArray();
 			BranchScoreControl.Build();
 			Notes = new List<INote>(BranchScoreControl.EnumratesAllNotes());
 			Measures = new List<IMeasureLine>(BranchScoreControl.EnumratesAllMeasures());
@@ -648,28 +649,28 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// <summary>
 		/// 描画データを設定する
 		/// </summary>
-		/// <param name="noteAreaWidth">音符描画領域の幅</param>
-		/// <param name="screenWidth">スクリーン領域の幅</param>
+		/// <param name="oneMeasureWidth">4/4拍子の1小節分を描画するために必要な幅</param>
+		/// <param name="startDrawPointX">スクリーン領域の幅</param>
 		/// <param name="playOptionScrollSpeed">演奏オプションのスクロールスピード</param>
-		public void SetDrawTime(float noteAreaWidth, float screenWidth, float playOptionScrollSpeed)
+		public void SetDrawTime(float oneMeasureWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed)
 		{
 			// 音符の設定
 			foreach (var note in Notes)
 			{
-				note.SetDrawTime(noteAreaWidth, screenWidth, playOptionScrollSpeed);
+				note.SetDrawTime(oneMeasureWidth, startDrawPointX, finishDrawPointX, playOptionScrollSpeed);
 			}
 
 			// 小節線の設定
 			foreach (var measure in Measures)
 			{
-				measure.SetDrawTime(noteAreaWidth, screenWidth, playOptionScrollSpeed);
+				measure.SetDrawTime(oneMeasureWidth, startDrawPointX, finishDrawPointX, playOptionScrollSpeed);
 			}
 
 			switch (ScoreType)
 			{
 				case ScoreType.HBScroll:
 					{
-						SetDrawHBScrollTime(noteAreaWidth);
+						SetDrawHBScrollTime(oneMeasureWidth);
 					}
 					break;
 			}
@@ -742,8 +743,6 @@ namespace Tatelier.Score.Play.Chart.TJA
 			{
 				return;
 			}
-
-			Debug.WriteLine($"'{$"{measureSB}".Replace("\n", "\\n")}'");
 
 			double pivotStartMillisec = notePivotInfo.PivotMillisec;
 
@@ -912,13 +911,17 @@ namespace Tatelier.Score.Play.Chart.TJA
 												if (notePivotInfo.NowBalloonIndex < notePivotInfo.BalloonValueList.Count)
 												{
 													cnt = notePivotInfo.BalloonValueList[notePivotInfo.NowBalloonIndex];
-													note.SpecialData = new BalloonData()
-													{
-														Count = cnt,
-														Index = notePivotInfo.NowBalloonIndex
-													};
-													notePivotInfo.NowBalloonIndex++;
 												}
+                                                else
+                                                {
+													notePivotInfo.BalloonValueList.Add(cnt);
+                                                }
+												note.SpecialData = new BalloonData()
+												{
+													Count = cnt,
+													Index = notePivotInfo.NowBalloonIndex
+												};
+												notePivotInfo.NowBalloonIndex++;
 											}
 										}
 

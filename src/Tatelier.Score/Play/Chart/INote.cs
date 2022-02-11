@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Tatelier.Score.Play.Chart
 {
-	public interface INote
+	/// <summary>
+	/// 音符インターフェース
+	/// </summary>
+	public interface INote : INoteSystem
 	{
 		/// <summary>
 		/// 音符ID
@@ -35,19 +38,14 @@ namespace Tatelier.Score.Play.Chart
 		INote PrevNote { get; }
 
 		/// <summary>
-		/// 開始時間(ms)
-		/// </summary>
-		int StartMillisec { get; }
-
-		/// <summary>
-		/// 開始時間(ms)
-		/// </summary>
-		int FinishMillisec { get; }
-
-		/// <summary>
 		/// 描画開始時間(ms)
 		/// </summary>
 		int StartDrawMillisec { get; }
+
+		/// <summary>
+		/// 描画終了時間(ms)
+		/// </summary>
+		int FinishDrawMillisec { get; }
 
 		/// <summary>
 		/// BPM情報
@@ -67,7 +65,7 @@ namespace Tatelier.Score.Play.Chart
 		/// <summary>
 		/// 1msで動く座標量
 		/// </summary>
-		float Mag1msForDraw { get; set; }
+		float MovementPerMillisec { get; set; }
 
 		/// <summary>
 		/// 叩かれ状態
@@ -86,12 +84,12 @@ namespace Tatelier.Score.Play.Chart
 		/// </summary>
 		object SpecialData { get; set; }
 
-		/// <summary>
-		/// 描画開始時間関連を設定する
-		/// </summary>
-		/// <param name="noteAreaWidth">描画エリア全体の幅</param>
-		/// <param name="screenWidth">スクリーン領域の幅</param>
-		/// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
-		void SetDrawTime(float noteAreaWidth, float screenWidth, float playOptionScrollSpeed);
+        /// <summary>
+        /// 描画開始時間関連を設定する
+        /// </summary>
+        /// <param name="oneMeasureWidth">4/4拍子の1小節分を描画するために必要な幅</param>
+        /// <param name="screenWidth">スクリーン領域の幅</param>
+        /// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
+        void SetDrawTime(float oneMeasureWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed);
 	}
 }

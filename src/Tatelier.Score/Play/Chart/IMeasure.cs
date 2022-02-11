@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Tatelier.Score.Play.Chart
 {
-	public interface IMeasureLine
+	/// <summary>
+	/// 小節線インターフェース
+	/// </summary>
+	public interface IMeasureLine : INoteSystem
 	{
 		/// <summary>
 		/// 小節線ID
@@ -22,11 +25,6 @@ namespace Tatelier.Score.Play.Chart
 		MeasureLineType MeasureLineType { get; }
 
 		/// <summary>
-		/// 開始時間(ms)
-		/// </summary>
-		int StartMillisec { get; }
-
-		/// <summary>
 		/// HBSCROLL用、開始X座標
 		/// </summary>
 		double HBScrollStartPointX { get; set; }
@@ -34,7 +32,7 @@ namespace Tatelier.Score.Play.Chart
 		/// <summary>
 		/// 1msで動く座標量
 		/// </summary>
-		float Mag1msForDraw { get; set; }
+		float MovementPerMillisec { get; set; }
 
 		/// <summary>
 		/// BPM情報
@@ -55,9 +53,9 @@ namespace Tatelier.Score.Play.Chart
 		/// 描画開始時間関連を設定する
 		/// </summary>
 		/// <param name="noteAreaWidth">描画エリア全体の幅</param>
-		/// <param name="screenWidth">スクリーン領域の幅</param>
+		/// <param name="startDrawPointX">スクリーン領域の幅</param>
 		/// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
-		void SetDrawTime(float noteAreaWidth, float screenWidth, float playOptionScrollSpeed);
+		void SetDrawTime(float noteAreaWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed);
 
 	}
 }
