@@ -323,11 +323,19 @@ namespace Tatelier.Score.Play.Chart.TJA
 
 					var lastBpm = info.CurrentBranchScoreItem.BPMInfoList.LastOrDefault()?.BPM ?? 0;
 
+					var pivotMicrosec = info.PivotMicrosec;
+
+					info.PivotMicrosec = info.PrevPivotMicrosec;
+
 					SetBPMCHANGE(info, bpm);
 
-					info.PivotMicrosec += new decimal(sec) * 1000000m;
+					var diff = new decimal(sec) * 1000000m;
+
+					info.PivotMicrosec += diff;
 
 					SetBPMCHANGE(info, lastBpm);
+
+					info.PivotMicrosec = pivotMicrosec + diff;
 				}
 				else
 				{

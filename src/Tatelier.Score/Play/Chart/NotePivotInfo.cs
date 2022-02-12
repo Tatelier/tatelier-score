@@ -63,10 +63,25 @@ namespace Tatelier.Score.Play.Chart
 		/// </summary>
 		public double PivotMillisec => decimal.ToDouble(PivotMicrosec * 0.001m);
 
+		decimal prevPivotMicrosec = 0;
+
+		public decimal PrevPivotMicrosec => prevPivotMicrosec;
+
+		decimal pivotMicrosec = 0;
+
 		/// <summary>
 		/// 音符のマイクロ秒
 		/// </summary>
-		public decimal PivotMicrosec = 0;
+		public decimal PivotMicrosec
+        {
+			get => pivotMicrosec;
+			set
+            {
+				prevPivotMicrosec = pivotMicrosec;
+				pivotMicrosec = value;
+			}
+
+		}
 
 		/// <summary>
 		/// 1つ前の音符
