@@ -2,7 +2,7 @@
 
 namespace Tatelier.Score.Play.Chart
 {
-    [DebuggerDisplay("time:[{StartTime} to {EndTime}]ms, point:[{StartPoint} to {EndPoint}]px")]
+    [DebuggerDisplay("time:[{StartMillisec} to {EndMillisec}]ms, point:[{StartPoint} to {EndPoint}]px")]
 	public class HBScrollDrawDataItem
 	{
 		/// <summary>
