@@ -25,14 +25,33 @@ namespace Tatelier.Score.Play.Chart
 		/// </summary>
 		public double EndPoint;
 
+		public bool IsApplicable(int startMillisec, int finishMillisec)
+		{
+			return (StartMillisec <= startMillisec && finishMillisec < EndMillisec);
+
+			// HBSCROLL挙動調査用処理
+			//if (StartMillisec < EndMillisec)
+			//{
+			//	return (StartMillisec <= startMillisec && finishMillisec < EndMillisec);
+			//}
+			//else
+			//{
+			//	return (EndMillisec <= startMillisec && finishMillisec < StartMillisec);
+			//}
+		}
+
+		public bool IsApplicable(int millisec)
+		{
+			return IsApplicable(millisec, millisec);
+		}
 		public bool IsApplicable(INote note)
-        {
-			return (StartMillisec <= note.StartMillisec && note.FinishMillisec < EndMillisec);
+		{
+			return IsApplicable(note.StartMillisec, note.FinishMillisec);
 		}
 
 		public bool IsApplicable(IMeasureLine line)
 		{
-			return (StartMillisec <= line.StartMillisec && line.StartMillisec < EndMillisec);
+			return IsApplicable(line.StartMillisec, line.FinishMillisec);
 		}
 
 		public double GetHBScrollPivotX(double per)
