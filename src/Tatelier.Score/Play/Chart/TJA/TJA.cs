@@ -35,7 +35,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// <summary>
 		/// タイトル
 		/// </summary>
-		public string Title { get; private set; }
+		public string Title { get; private set; } = "undefined";
 
 		/// <summary>
 		/// 譜面ID
@@ -50,12 +50,12 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// <summary>
 		/// 音源ファイルパス
 		/// </summary>
-		public string WaveFileName { get; private set; }
+		public string WaveFileName { get; private set; } = "";
 
 		/// <summary>
 		/// 歌詞ファイルパス
 		/// </summary>
-		public string LyricFileName { get; private set; }
+		public string LyricFileName { get; private set; } = "";
 
 		/// <summary>
 		/// 譜面バージョン
