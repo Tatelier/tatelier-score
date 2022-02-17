@@ -22,6 +22,16 @@ namespace Tatelier.Score.Play.Chart
 		/// <summary>
 		/// 音符種別
 		/// </summary>
+		NoteType OriginalNoteType { get; }
+
+		/// <summary>
+		/// 音符文字種別
+		/// </summary>
+		NoteTextType OriginalNoteTextType { get; }
+
+		/// <summary>
+		/// 音符種別
+		/// </summary>
 		NoteType NoteType { get; }
 
 		/// <summary>

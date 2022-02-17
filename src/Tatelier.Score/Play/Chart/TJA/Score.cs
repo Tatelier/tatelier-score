@@ -47,6 +47,19 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// 風船打数リスト
 		/// </summary>
 		public int[] BalloonCountList;
+
+
+		public bool IsNoteRandom = false;
+
+		public bool IsNoteInverse = false;
+
+		public int NoteRandomRatio = 30;
+
+		/// <summary>
+		/// ランダム時のシード値
+		/// nullのときは自動
+		/// </summary>
+		public int? NoteRandomSeed;
 	}
 
 	[DebuggerDisplay("CourseName : {CourseName}")]
@@ -513,6 +526,15 @@ namespace Tatelier.Score.Play.Chart.TJA
 			CourseName = info.CourseName;
 
 			var notePivotInfo = new NotePivotInfo();
+
+			notePivotInfo.IsNoteRandom = info.IsNoteRandom;
+			if (notePivotInfo.IsNoteRandom)
+			{
+				notePivotInfo.Random = new Random((int)info.NoteRandomSeed);
+			}
+			notePivotInfo.RandomRatio = info.NoteRandomRatio;
+			notePivotInfo.IsInverse = info.IsNoteInverse;
+
 			notePivotInfo.PivotMicrosec = -1000000;
 			notePivotInfo.BPMInfo = new BPMInfo(notePivotInfo.PivotMillisec, info.StartBPM);
 			notePivotInfo.BalloonValueList = new List<int>(info.BalloonCountList);

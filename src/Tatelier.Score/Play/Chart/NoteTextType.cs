@@ -30,5 +30,9 @@
 		/// ゲキ連打
 		/// </summary>
 		GekiRenda,
+		/// <summary>
+		/// 
+		/// </summary>
+		None,
 	}
 }

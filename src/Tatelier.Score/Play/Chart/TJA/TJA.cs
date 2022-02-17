@@ -8,6 +8,31 @@ using System.Threading.Tasks;
 
 namespace Tatelier.Score.Play.Chart.TJA
 {
+	public class TJALoadPlayerInfo
+	{
+		/// <summary>
+		/// 取得するコース名一覧
+		/// 0: Player1, n:Player(n+1)
+		/// </summary>
+		public string CourseName { get; } = "";
+
+		public bool IsNoteInverse = false;
+
+		public bool IsNoteRandom = false;
+
+		public int? NoteRandomSeed = null;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int NoteRandomRatio = 30;
+
+		public TJALoadPlayerInfo(string courseName)
+        {
+			CourseName = courseName;
+        }
+    }
+
 	public class TJALoadInfo
 	{
 		/// <summary>
@@ -15,11 +40,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// </summary>
 		public string FilePath = string.Empty;
 
-		/// <summary>
-		/// 取得するコース名一覧
-		/// 0: Player1, n:Player(n+1)
-		/// </summary>
-		public string[] CourseNames = new string[0];
+		public TJALoadPlayerInfo[] TJALoadPlayerInfoList = new TJALoadPlayerInfo[0];
 	}
 
 	/// <summary>
@@ -36,6 +57,11 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// タイトル
 		/// </summary>
 		public string Title { get; private set; } = "undefined";
+
+		/// <summary>
+		/// サブタイトル
+		/// </summary>
+		public string SubTitle { get; private set; } = "undefined";
 
 		/// <summary>
 		/// 譜面ID
@@ -110,6 +136,19 @@ namespace Tatelier.Score.Play.Chart.TJA
 			}
 		}
 
+		int GetRandomSeed(TJALoadPlayerInfo info)
+		{
+			var data = Encoding.UTF8.GetBytes($"{Title}:{SubTitle}:{info.CourseName}:{info.NoteRandomSeed}");
+
+			var md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+
+			byte[] hash = md5.ComputeHash(data);
+
+			md5.Clear();
+
+			return BitConverter.ToInt32(hash, 0);
+		}
+
 		/// <summary>
 		/// 譜面データをロードする
 		/// </summary>
@@ -117,7 +156,6 @@ namespace Tatelier.Score.Play.Chart.TJA
 		public void Load(TJALoadInfo info)
 		{
 			var path = info.FilePath;
-			var courseNameList = info.CourseNames;
 
 			FilePath = path;
 
@@ -129,20 +167,23 @@ namespace Tatelier.Score.Play.Chart.TJA
 
 			bool isAll = false;
 
-			if (courseNameList?.Length == 0)
-			{
-				isAll = true;
-				courseNameList = new string[]
-				{
-					"Oni"
-				};
-			}
+			var tjaLoadPlayerInfoList = info.TJALoadPlayerInfoList;
 
-			using (var sr = new StreamReader(path, encoding))
+
+			if (tjaLoadPlayerInfoList?.Length == 0)
+            {
+                isAll = true;
+				tjaLoadPlayerInfoList = new TJALoadPlayerInfo[]
+                {
+                    new TJALoadPlayerInfo("Oni")
+                };
+            }
+
+            using (var sr = new StreamReader(path, encoding))
 			{
-				foreach (var s in courseNameList)
+				foreach (var s in tjaLoadPlayerInfoList)
 				{
-					string courseName = Utility.GetCourse(s);
+					string courseName = Utility.GetCourse(s.CourseName);
 					string nowCourse = Utility.GetCourse("Oni");
 					var sb = new StringBuilder();
 
@@ -173,15 +214,24 @@ namespace Tatelier.Score.Play.Chart.TJA
 								nowReadScore = false;
 								sb.AppendLine(line);
 
-								if (isAll || s == nowCourse)
+								if (isAll || s.CourseName == nowCourse)
 								{
+									int? randomSeed = null;
+                                    if (s.IsNoteRandom)
+                                    {
+										randomSeed = GetRandomSeed(s);
+									}
 									score.Add(new Score(sb, new ScoreInfo()
 									{
 										CourseName = nowCourse,
 										StartBPM = StartBPM,
 										OffsetMillisec = OffsetMillisec,
 										HasHBScroll = hasHBScroll,
-										BalloonCountList = ballonCountArray
+										BalloonCountList = ballonCountArray,
+										IsNoteInverse = s.IsNoteInverse,
+										IsNoteRandom = s.IsNoteRandom,
+										NoteRandomRatio = s.NoteRandomRatio,
+										NoteRandomSeed = randomSeed,
 									}));
 								}
 								sb.Clear();
@@ -221,6 +271,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 											LyricFileName = groups[2].Value;
 											break;
 										case "TITLE":
+										case "SUBTITlE":
 											Title = groups[2].Value;
 											break;
 										case "WAVE":
@@ -247,13 +298,22 @@ namespace Tatelier.Score.Play.Chart.TJA
 						&& sb.Length > 0)
 					{
 						nowReadScore = false;
+						int? randomSeed = null;
+						if (s.IsNoteRandom)
+						{
+							randomSeed = GetRandomSeed(s);
+						}
 						score.Add(new Score(sb, new ScoreInfo()
 						{
 							CourseName = nowCourse,
 							StartBPM = StartBPM,
 							OffsetMillisec = OffsetMillisec,
 							HasHBScroll = hasHBScroll,
-							BalloonCountList = ballonCountArray
+							BalloonCountList = ballonCountArray,
+							IsNoteInverse = s.IsNoteInverse,
+							IsNoteRandom = s.IsNoteRandom,
+							NoteRandomRatio = s.NoteRandomRatio,
+							NoteRandomSeed = randomSeed,
 						}));
 						sb.Clear();
 					}

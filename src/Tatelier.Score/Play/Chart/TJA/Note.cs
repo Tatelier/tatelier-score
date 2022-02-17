@@ -16,6 +16,16 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// <summary>
 		/// 音符種別
 		/// </summary>
+		public NoteType OriginalNoteType { get; private set; } = NoteType.Don;
+
+		/// <summary>
+		/// 音符文字種別
+		/// </summary>
+		public NoteTextType OriginalNoteTextType { get; private set; } = NoteTextType.Do;
+
+		/// <summary>
+		/// 音符種別
+		/// </summary>
 		public NoteType NoteType { get; private set; } = NoteType.Don;
 
 		/// <summary>
@@ -121,6 +131,46 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// </summary>
 		public HBScrollDrawDataItem HBScrollDrawDataItem { get; set; }
 
+		NoteTextType GetNoteTextType(NoteType noteType)
+		{
+			// TODO: 暫定処理のため、今後修正
+			switch (NoteType)
+			{
+				case NoteType.Don:
+				case NoteType.DonBig:
+					return NoteTextType.Do;
+				case NoteType.Kat:
+				case NoteType.KatBig:
+					return NoteTextType.Kat;
+				case NoteType.Roll:
+				case NoteType.RollBig:
+					return NoteTextType.Renda;
+				case NoteType.Balloon:
+				case NoteType.Dull:
+					return NoteTextType.GekiRenda;
+				case NoteType.End:
+				default:
+					return NoteTextType.None;
+			}
+		}
+
+		NoteType GetInverseNote(NoteType noteType)
+		{
+			switch (noteType)
+			{
+				case NoteType.Don:
+					return NoteType.Kat;					
+				case NoteType.Kat:
+					return NoteType.Don;					
+				case NoteType.DonBig:
+					return NoteType.KatBig;					
+				case NoteType.KatBig:
+					return NoteType.DonBig;					
+				default:
+					return noteType;
+			}
+		}
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -129,32 +179,37 @@ namespace Tatelier.Score.Play.Chart.TJA
         public Note(NoteType noteType, NotePivotInfo info)
 		{
 			Id = info.NoteId++;
-			NoteType = noteType;
+			OriginalNoteType = noteType;
+			OriginalNoteTextType = GetNoteTextType(noteType);
 
-			// TODO: 暫定処理のため、今後修正
-			switch (NoteType)
-			{
-				case NoteType.Don:
-				case NoteType.DonBig:
-					NoteTextType = NoteTextType.Do;
-					break;
-				case NoteType.Kat:
-				case NoteType.KatBig:
-					NoteTextType = NoteTextType.Kat;
-					break;
-				case NoteType.Roll:
-				case NoteType.RollBig:
-					NoteTextType = NoteTextType.Renda;
-					break;
-				case NoteType.Balloon:
-				case NoteType.Dull:
-					NoteTextType = NoteTextType.GekiRenda;
-					break;
-				case NoteType.End:
-					break;
+			NoteType = noteType;
+			NoteTextType = GetNoteTextType(NoteType);
+
+			if (info.IsInverse)
+            {
+				NoteType = GetInverseNote(NoteType);
+				NoteTextType = GetNoteTextType(NoteType);
 			}
 
-			StartMillisec = (int)info.PivotMillisec;
+            if (info.IsNoteRandom)
+			{
+				switch (OriginalNoteType)
+				{
+					case NoteType.Don:
+					case NoteType.Kat:
+					case NoteType.DonBig:
+					case NoteType.KatBig:
+						int r = info.Random.Next(100);
+                        if (r < info.RandomRatio)
+                        {
+							NoteType = GetInverseNote(NoteType);
+						}
+						break;
+				}
+				NoteTextType = GetNoteTextType(NoteType);
+			}
+
+            StartMillisec = (int)info.PivotMillisec;
 			FinishMillisec = StartMillisec;
 
 			BPMInfo = info.BPMInfo;
@@ -168,6 +223,6 @@ namespace Tatelier.Score.Play.Chart.TJA
 				// 1つ前の音符の終了時間を設定する
 				PrevNote.FinishMillisec = StartMillisec;
 			}
-		}
-	}
+        }
+    }
 }

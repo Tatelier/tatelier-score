@@ -69,6 +69,18 @@ namespace Tatelier.Score.Play.Chart
 
 		decimal pivotMicrosec = 0;
 
+		public bool IsInverse = true;
+
+		public bool IsNoteRandom = true;
+
+		/// <summary>
+		/// ランダムによって入れ替わる確率
+		/// 0～100
+		/// </summary>
+		public int RandomRatio = 70;
+
+		public Random Random = new Random();
+
 		/// <summary>
 		/// 音符のマイクロ秒
 		/// </summary>
