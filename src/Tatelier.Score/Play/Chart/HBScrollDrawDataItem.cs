@@ -25,6 +25,8 @@ namespace Tatelier.Score.Play.Chart
 		/// </summary>
 		public double EndPoint;
 
+		public bool IsDelay = false;
+
 		public bool IsApplicable(int startMillisec, int finishMillisec)
 		{
 			return (StartMillisec <= startMillisec && finishMillisec < EndMillisec);

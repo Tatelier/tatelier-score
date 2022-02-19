@@ -52,25 +52,48 @@ namespace Tatelier.Score.Play.Chart
 
 			foreach(var note in Notes)
 			{
-				foreach(var item in BPMInfoList.Reverse<BPMInfo>())
+				BPMInfo prev = BPMInfoList.LastOrDefault();
+
+				foreach (var item in BPMInfoList.Reverse<BPMInfo>())
 				{
 					if(item.StartMillisec <= note.StartMillisec && note.StartMillisec < item.EndMillisec)
 					{
-						item.AddNote(note);
-						break;
+						if (item.IsDelay)
+						{
+							prev.AddNote(note);
+							break;
+						}
+						else
+						{
+							item.AddNote(note);
+							break;
+						}
 					}
+
+					prev = item;
 				}
 			}
 
 			foreach(var measure in Measures)
 			{
+				BPMInfo prev = BPMInfoList.LastOrDefault();
+
 				foreach (var item in BPMInfoList.Reverse<BPMInfo>())
 				{
 					if (item.StartMillisec <= measure.StartMillisec && measure.StartMillisec < item.EndMillisec)
 					{
-						item.AddMeasure(measure);
-						break;
+						if (item.IsDelay)
+						{
+							prev.AddMeasure(measure);
+							break;
+						}
+						else
+						{
+							item.AddMeasure(measure);
+							break;
+						}
 					}
+					prev = item;
 				}
 			}
 		}

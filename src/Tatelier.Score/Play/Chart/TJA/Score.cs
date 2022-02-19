@@ -330,17 +330,16 @@ namespace Tatelier.Score.Play.Chart.TJA
 				{
 					return -2;
 				}
-				if (sec > 0)
-				{
-					var bpm = 0;
-
+                if (sec > 0)
+                {
 					var lastBpm = info.CurrentBranchScoreItem.BPMInfoList.LastOrDefault()?.BPM ?? 0;
 
 					var pivotMicrosec = info.PivotMicrosec;
 
 					info.PivotMicrosec = info.PrevPivotMicrosec;
 
-					SetBPMCHANGE(info, bpm);
+					SetBPMCHANGE(info, 0);
+					info.CurrentBranchScoreItem.BPMInfoList.LastOrDefault().IsDelay = true;
 
 					var diff = new decimal(sec) * 1000000m;
 
@@ -662,6 +661,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 			foreach (var branchScore in BranchScoreControl.GetAllBranchScoreList().Select(v => v.BranchScore))
 			{
 				branchScore.HBScrollDrawDataControl.Clear();
+				BPMInfo prevBPMInfo = branchScore.BPMInfoList.FirstOrDefault();
 				foreach (var bpmInfo in branchScore.BPMInfoList)
 				{
 					var dataItem = new HBScrollDrawDataItem()
@@ -670,8 +670,11 @@ namespace Tatelier.Score.Play.Chart.TJA
 						EndMillisec = bpmInfo.EndMillisec,
 					};
 
-					dataItem.StartPoint = branchScore.HBScrollDrawDataControl.ItemList?.LastOrDefault()?.EndPoint ?? bpmInfo.GetDivision(dataItem.StartMillisec) * areaWidth;
-					dataItem.EndPoint = dataItem.StartPoint + bpmInfo.GetDivision(dataItem.EndMillisec - dataItem.StartMillisec) * areaWidth;
+					var currentBPMInfo = bpmInfo;
+
+                    dataItem.StartPoint = branchScore.HBScrollDrawDataControl.ItemList?.LastOrDefault()?.EndPoint ?? currentBPMInfo.GetDivision(dataItem.StartMillisec) * areaWidth;
+					dataItem.EndPoint = dataItem.StartPoint + currentBPMInfo.GetDivision(dataItem.EndMillisec - dataItem.StartMillisec) * areaWidth;
+					dataItem.IsDelay = bpmInfo.IsDelay;
 
 					branchScore.HBScrollDrawDataControl.Add(dataItem);
 
@@ -688,6 +691,8 @@ namespace Tatelier.Score.Play.Chart.TJA
 						measure.HBScrollStartPointX = dataItem.GetHBScrollPivotX(per);
 						measure.HBScrollDrawDataItem = dataItem;
 					}
+
+					prevBPMInfo = bpmInfo;
 				}
 			}
 		}

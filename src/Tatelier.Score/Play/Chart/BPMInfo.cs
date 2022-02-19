@@ -28,6 +28,9 @@ namespace Tatelier.Score.Play.Chart
 		/// </summary>
 		public double BPM { get; set; } = 5;
 
+
+		public bool IsDelay { get; set; } = false;
+
 		/// <summary>
 		/// 1小節の時間(ms)
 		/// </summary>
