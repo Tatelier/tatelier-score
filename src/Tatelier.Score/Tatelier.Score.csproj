@@ -60,9 +60,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\BPM.cs" />
+    <Compile Include="Component\Measure.cs" />
+    <Compile Include="Component\ScrollSpeed.cs" />
     <Compile Include="Const.cs" />
     <Compile Include="Play\Chart\BalloonData.cs" />
-    <Compile Include="Play\Chart\BPMInfo.cs" />
     <Compile Include="Play\Chart\BranchPlayInfo.cs" />
     <Compile Include="Play\Chart\BranchScoreControl.cs" />
     <Compile Include="Play\Chart\BranchScoreItem.cs" />
@@ -73,13 +75,11 @@
     <Compile Include="Play\Chart\IMeasure.cs" />
     <Compile Include="Play\Chart\INote.cs" />
     <Compile Include="Play\Chart\INoteSystem.cs" />
-    <Compile Include="Play\Chart\MeasureInfo.cs" />
     <Compile Include="Play\Chart\MeasureLineType.cs" />
     <Compile Include="Play\Chart\NotePivotInfo.cs" />
     <Compile Include="Play\Chart\NoteTextType.cs" />
     <Compile Include="Play\Chart\NoteType.cs" />
     <Compile Include="Play\Chart\ScoreType.cs" />
-    <Compile Include="Play\Chart\ScrollSpeedInfo.cs" />
     <Compile Include="Play\Chart\TJA\MeasureLine.cs" />
     <Compile Include="Play\Chart\TJA\Note.cs" />
     <Compile Include="Play\Chart\TJA\Score.cs" />

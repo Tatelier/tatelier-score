@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tatelier.Score.Component;
 
 namespace Tatelier.Score.Play.Chart
 {
-	/// <summary>
-	/// 音符インターフェース
-	/// </summary>
-	public interface INote : INoteSystem
+    /// <summary>
+    /// 音符インターフェース
+    /// </summary>
+    public interface INote : INoteSystem
 	{
 		/// <summary>
 		/// 音符ID
@@ -60,12 +61,12 @@ namespace Tatelier.Score.Play.Chart
 		/// <summary>
 		/// BPM情報
 		/// </summary>
-		BPMInfo BPMInfo { get; }
+		BPM BPMInfo { get; }
 
 		/// <summary>
 		/// スクロールスピード情報
 		/// </summary>
-		ScrollSpeedInfo ScrollSpeedInfo { get; }
+		ScrollSpeed ScrollSpeedInfo { get; }
 
 		/// <summary>
 		/// HBSCROLL用描画データ

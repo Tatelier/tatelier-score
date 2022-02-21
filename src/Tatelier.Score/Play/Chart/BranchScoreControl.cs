@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Tatelier.Score.Component;
 
 namespace Tatelier.Score.Play.Chart
 {
-	/// <summary>
-	/// 分岐譜面管理クラス
-	/// ※分岐のない譜面も使う
-	/// </summary>
-	public class BranchScoreControl
+    /// <summary>
+    /// 分岐譜面管理クラス
+    /// ※分岐のない譜面も使う
+    /// </summary>
+    public class BranchScoreControl
 	{
 		/// <summary>
 		/// 演奏用
@@ -248,7 +248,7 @@ namespace Tatelier.Score.Play.Chart
 			foreach (var item in MasterScoreList) yield return (BranchType.Master, item.Value);
 		}
 
-		public BPMInfo GetBPMInfo(int millisec, BranchType branchType)
+		public BPM GetBPMInfo(int millisec, BranchType branchType)
 		{
 			SortedDictionary<int, BranchScoreItem> list = null;
 
@@ -280,7 +280,7 @@ namespace Tatelier.Score.Play.Chart
 			{
 				foreach(var bpm in item.BPMInfoList)
 				{
-					if(bpm.StartMillisec <= millisec && millisec < bpm.EndMillisec)
+					if(bpm.StartMillisec <= millisec && millisec < bpm.FinishMillisec)
 					{
 						return bpm;
 					}
@@ -291,7 +291,7 @@ namespace Tatelier.Score.Play.Chart
 			{
 				foreach (var bpm in item.BPMInfoList)
 				{
-					if (bpm.StartMillisec <= millisec && millisec < bpm.EndMillisec)
+					if (bpm.StartMillisec <= millisec && millisec < bpm.FinishMillisec)
 					{
 						return bpm;
 					}

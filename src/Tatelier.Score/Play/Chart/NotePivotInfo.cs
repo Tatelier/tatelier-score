@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Tatelier.Score.Component;
 
 namespace Tatelier.Score.Play.Chart
 {
-	/// <summary>
-	/// パース用情報クラス
-	/// </summary>
-	public class NotePivotInfo
+    /// <summary>
+    /// パース用情報クラス
+    /// </summary>
+    public class NotePivotInfo
 	{
 		/// <summary>
 		/// 分岐用の情報
@@ -46,17 +46,17 @@ namespace Tatelier.Score.Play.Chart
 		/// <summary>
 		/// BPM情報
 		/// </summary>
-		public BPMInfo BPMInfo = new BPMInfo(-1000, 120);
+		public BPM BPMInfo = new BPM(-1000, 120);
 
 		/// <summary>
 		/// MeasureLine情報
 		/// </summary>
-		public MeasureInfo MeasureInfo = new MeasureInfo(-60000, 4, 4);
+		public Measure MeasureInfo = new Measure(-60000, 4, 4);
 
 		/// <summary>
 		/// ScrollSpeed情報
 		/// </summary>
-		public ScrollSpeedInfo ScrollSpeedInfo = new ScrollSpeedInfo(-60000, 1.0);
+		public ScrollSpeed ScrollSpeedInfo = new ScrollSpeed(-60000, 1.0);
 		
 		/// <summary>
 		/// 音符のミリ時間(only get)

@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
+using Tatelier.Score.Component;
 
 namespace Tatelier.Score.Play.Chart.TJA
 {
-	using ScoreParserFuncMap = Dictionary<string, Func<NotePivotInfo, string[], int>>;
+    using ScoreParserFuncMap = Dictionary<string, Func<NotePivotInfo, string[], int>>;
 
-	/// <summary>
-	/// 譜面情報
-	/// </summary>
-	public class ScoreInfo
+    /// <summary>
+    /// 譜面情報
+    /// </summary>
+    public class ScoreInfo
 	{
 		public const string VERSION_TATELIER_V1 = "Tatelier.v1";
 
@@ -255,7 +255,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 			}
 			else
 			{
-				info.BPMInfo = new BPMInfo(info.PivotMillisec, bpm);
+				info.BPMInfo = new BPM(info.PivotMillisec, bpm);
 				info.CurrentBranchScoreItem.BPMInfoList.LastOrDefault()?.SetEndMillisec(info.PivotMillisec);
 				info.CurrentBranchScoreItem.BPMInfoList.Add(info.BPMInfo);
 			}
@@ -286,7 +286,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 				}
 
 
-				info.MeasureInfo = new MeasureInfo(info.PivotMillisec, upper, lower);
+				info.MeasureInfo = new Measure(info.PivotMillisec, upper, lower);
 				info.CurrentBranchScoreItem.MeasureInfoList.LastOrDefault()?.SetEndMillisec(info.PivotMillisec);
 				info.CurrentBranchScoreItem.MeasureInfoList.Add(info.MeasureInfo);
 
@@ -309,7 +309,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 					return ERROR_PARSE;
 				}
 
-				info.ScrollSpeedInfo = new ScrollSpeedInfo(info.PivotMillisec, scrollSpeed);
+				info.ScrollSpeedInfo = new ScrollSpeed(info.PivotMillisec, scrollSpeed);
 				info.CurrentBranchScoreItem.ScrollSpeedInfoList.LastOrDefault()?.SetEndMillisec(info.PivotMillisec);
 				info.CurrentBranchScoreItem.ScrollSpeedInfoList.Add(info.ScrollSpeedInfo);
 
@@ -332,7 +332,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 				}
                 if (sec > 0)
                 {
-					var lastBpm = info.CurrentBranchScoreItem.BPMInfoList.LastOrDefault()?.BPM ?? 0;
+					var lastBpm = info.CurrentBranchScoreItem.BPMInfoList.LastOrDefault()?.Value ?? 0;
 
 					var pivotMicrosec = info.PivotMicrosec;
 
@@ -535,7 +535,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 			notePivotInfo.IsInverse = info.IsNoteInverse;
 
 			notePivotInfo.PivotMicrosec = -1000000;
-			notePivotInfo.BPMInfo = new BPMInfo(notePivotInfo.PivotMillisec, info.StartBPM);
+			notePivotInfo.BPMInfo = new BPM(notePivotInfo.PivotMillisec, info.StartBPM);
 			notePivotInfo.BalloonValueList = new List<int>(info.BalloonCountList);
 
 			notePivotInfo.CurrentBranchScoreItem = new BranchScoreItem(notePivotInfo);
@@ -661,13 +661,13 @@ namespace Tatelier.Score.Play.Chart.TJA
 			foreach (var branchScore in BranchScoreControl.GetAllBranchScoreList().Select(v => v.BranchScore))
 			{
 				branchScore.HBScrollDrawDataControl.Clear();
-				BPMInfo prevBPMInfo = branchScore.BPMInfoList.FirstOrDefault();
+				BPM prevBPMInfo = branchScore.BPMInfoList.FirstOrDefault();
 				foreach (var bpmInfo in branchScore.BPMInfoList)
 				{
 					var dataItem = new HBScrollDrawDataItem()
 					{
 						StartMillisec = bpmInfo.StartMillisec,
-						EndMillisec = bpmInfo.EndMillisec,
+						EndMillisec = bpmInfo.FinishMillisec,
 					};
 
 					var currentBPMInfo = bpmInfo;
@@ -871,7 +871,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 
             if (i == measureSB.Length)
             {
-				notePivotInfo.PivotMicrosec += notePivotInfo.MeasureInfo.GetCalc(Const.OneMinuteInMicrosec) / new decimal(notePivotInfo.BPMInfo.BPM);
+				notePivotInfo.PivotMicrosec += notePivotInfo.MeasureInfo.GetCalc(Const.OneMinuteInMicrosec) / new decimal(notePivotInfo.BPMInfo.Value);
 				return;
             }
 
@@ -988,7 +988,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 									}
 									break;
 							}
-							notePivotInfo.PivotMicrosec += notePivotInfo.MeasureInfo.GetCalc(Const.OneMinuteInMicrosec) / (new decimal(notePivotInfo.BPMInfo.BPM) * new decimal(noteNum));
+							notePivotInfo.PivotMicrosec += notePivotInfo.MeasureInfo.GetCalc(Const.OneMinuteInMicrosec) / (new decimal(notePivotInfo.BPMInfo.Value) * new decimal(noteNum));
 						}
 						break;
 				}

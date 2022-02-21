@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tatelier.Score.Component;
 
 namespace Tatelier.Score.Play.Chart
 {
-	/// <summary>
-	/// 小節線インターフェース
-	/// </summary>
-	public interface IMeasureLine : INoteSystem
+    /// <summary>
+    /// 小節線インターフェース
+    /// </summary>
+    public interface IMeasureLine : INoteSystem
 	{
 		/// <summary>
 		/// 小節線ID
@@ -42,12 +43,12 @@ namespace Tatelier.Score.Play.Chart
 		/// <summary>
 		/// BPM情報
 		/// </summary>
-		BPMInfo BPMInfo { get; }
+		BPM BPMInfo { get; }
 
 		/// <summary>
 		/// スクロールスピード情報
 		/// </summary>
-		ScrollSpeedInfo ScrollSpeedInfo { get; }
+		ScrollSpeed ScrollSpeedInfo { get; }
 
 		/// <summary>
 		/// 表示

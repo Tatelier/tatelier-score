@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using Tatelier.Score.Component;
 
 namespace Tatelier.Score.Play.Chart.TJA
 {
-	[DebuggerDisplay("{NoteType}, Time: {StartMillisec}～{FinishMillisec}")]
+    [DebuggerDisplay("{NoteType}, Time: {StartMillisec}～{FinishMillisec}")]
 	public class Note : INote
 	{
 		INote INote.PrevNote => PrevNote;
@@ -41,12 +42,12 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// <summary>
 		/// BPM情報
 		/// </summary>
-		public BPMInfo BPMInfo { get; private set; }
+		public BPM BPMInfo { get; private set; }
 
 		/// <summary>
 		/// スクロールスピード情報
 		/// </summary>
-		public ScrollSpeedInfo ScrollSpeedInfo { get; private set; }
+		public ScrollSpeed ScrollSpeedInfo { get; private set; }
 
 		/// <summary>
 		/// 開始時間
@@ -97,7 +98,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 		/// <param name="playOptionScrollSpeed">設定部のスクロールスピード</param>
 		public void BuildScoreRendererData(float oneMeasureWidth, float startDrawPointX, float finishDrawPointX, float playOptionScrollSpeed)
 		{
-			var scrspd = (ScrollSpeedInfo.ScrollSpeed * playOptionScrollSpeed);
+			var scrspd = (ScrollSpeedInfo.Value * playOptionScrollSpeed);
 			var area = (oneMeasureWidth * scrspd);
 			
 			if (scrspd < 0)

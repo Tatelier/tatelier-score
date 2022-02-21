@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Tatelier.Score.Component;
 
 namespace Tatelier.Score.Play.Chart
 {
-	public class BranchScoreItem
+    public class BranchScoreItem
 	{
 		public bool IsFixed = false;
 		public int StartMillisec;
@@ -11,9 +12,9 @@ namespace Tatelier.Score.Play.Chart
 		public List<IMeasureLine> Measures = new List<IMeasureLine>();
 		public List<INote> Notes = new List<INote>();
 
-		public List<BPMInfo> BPMInfoList = new List<BPMInfo>();
-		public List<MeasureInfo> MeasureInfoList = new List<MeasureInfo>();
-		public List<ScrollSpeedInfo> ScrollSpeedInfoList = new List<ScrollSpeedInfo>();
+		public List<BPM> BPMInfoList = new List<BPM>();
+		public List<Measure> MeasureInfoList = new List<Measure>();
+		public List<ScrollSpeed> ScrollSpeedInfoList = new List<ScrollSpeed>();
 
 		readonly SortedDictionary<int, List<List<INote>>> noteList;
 
@@ -52,11 +53,11 @@ namespace Tatelier.Score.Play.Chart
 
 			foreach(var note in Notes)
 			{
-				BPMInfo prev = BPMInfoList.LastOrDefault();
+				BPM prev = BPMInfoList.LastOrDefault();
 
-				foreach (var item in BPMInfoList.Reverse<BPMInfo>())
+				foreach (var item in BPMInfoList.Reverse<BPM>())
 				{
-					if(item.StartMillisec <= note.StartMillisec && note.StartMillisec < item.EndMillisec)
+					if(item.StartMillisec <= note.StartMillisec && note.StartMillisec < item.FinishMillisec)
 					{
 						if (item.IsDelay)
 						{
@@ -76,11 +77,11 @@ namespace Tatelier.Score.Play.Chart
 
 			foreach(var measure in Measures)
 			{
-				BPMInfo prev = BPMInfoList.LastOrDefault();
+				BPM prev = BPMInfoList.LastOrDefault();
 
-				foreach (var item in BPMInfoList.Reverse<BPMInfo>())
+				foreach (var item in BPMInfoList.Reverse<BPM>())
 				{
-					if (item.StartMillisec <= measure.StartMillisec && measure.StartMillisec < item.EndMillisec)
+					if (item.StartMillisec <= measure.StartMillisec && measure.StartMillisec < item.FinishMillisec)
 					{
 						if (item.IsDelay)
 						{
@@ -131,9 +132,9 @@ namespace Tatelier.Score.Play.Chart
 
 		public BranchScoreItem(NotePivotInfo info)
 		{
-			BPMInfoList.Add(new BPMInfo(info.PivotMillisec, info.BPMInfo));
-			MeasureInfoList.Add(new MeasureInfo(info.PivotMillisec, info.MeasureInfo));
-			ScrollSpeedInfoList.Add(new ScrollSpeedInfo(info.PivotMillisec, info.ScrollSpeedInfo));
+			BPMInfoList.Add(new BPM(info.PivotMillisec, info.BPMInfo));
+			MeasureInfoList.Add(new Measure(info.PivotMillisec, info.MeasureInfo));
+			ScrollSpeedInfoList.Add(new ScrollSpeed(info.PivotMillisec, info.ScrollSpeedInfo));
 
 			noteList = new SortedDictionary<int, List<List<INote>>>();
 			noteList[nowLayer] = new List<List<INote>>();
