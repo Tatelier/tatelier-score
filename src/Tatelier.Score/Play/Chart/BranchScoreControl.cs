@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tatelier.Score.Component;
+using Tatelier.Score.Component.NoteSystem;
 
 namespace Tatelier.Score.Play.Chart
 {
@@ -17,14 +18,14 @@ namespace Tatelier.Score.Play.Chart
 		/// 演奏用
 		/// 譜面分岐開始時間のリスト
 		/// </summary>
-		public List<int> BranchStartTimeList = new List<int>();
+		public List<int> BranchStartTimeList { get; } = new List<int>();
 
 		/// <summary>
 		/// 分岐切替準備時間配列(1小節前時間リスト)
 		/// ※要素数はBranchTypeListと同じになる
 		/// TODO: 一元管理化したい
 		/// </summary>
-		public List<int> PrepareBranchTimeList = new List<int>();
+		public List<int> PrepareBranchTimeList { get; } = new List<int>();
 
 		/// <summary>
 		/// 分岐種別を保持するためのリスト
@@ -55,7 +56,11 @@ namespace Tatelier.Score.Play.Chart
 
 		public List<int> OneBeforeMeasureTime = new List<int>();
 
-		public IEnumerable<INote> EnumratesAllNotes()
+		/// <summary>
+		/// すべての音符を列挙する
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<INote> EnumratesAllNote()
 		{
 			foreach (var item in GetAllBranchScoreList().Select(v=>v.BranchScore))
 			{
@@ -66,7 +71,11 @@ namespace Tatelier.Score.Play.Chart
 			}
 		}
 
-		public IEnumerable<IMeasureLine> EnumratesAllMeasures()
+		/// <summary>
+		/// すべての小節線を列挙する
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<IMeasureLine> EnumratesAllMeasureLine()
 		{
 			foreach (var item in GetAllBranchScoreList().Select(v => v.BranchScore))
 			{

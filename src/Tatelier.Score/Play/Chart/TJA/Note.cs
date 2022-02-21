@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Tatelier.Score.Component;
+using Tatelier.Score.Component.NoteSystem;
 
 namespace Tatelier.Score.Play.Chart.TJA
 {

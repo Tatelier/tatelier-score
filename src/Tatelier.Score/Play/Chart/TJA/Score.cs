@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tatelier.Score.Component;
+using Tatelier.Score.Component.NoteSystem;
 
 namespace Tatelier.Score.Play.Chart.TJA
 {
@@ -648,8 +649,8 @@ namespace Tatelier.Score.Play.Chart.TJA
 
 			BalloonCountList = notePivotInfo.BalloonValueList.ToArray();
 			BranchScoreControl.Build();
-			Notes = new List<INote>(BranchScoreControl.EnumratesAllNotes());
-			Measures = new List<IMeasureLine>(BranchScoreControl.EnumratesAllMeasures());
+			Notes = new List<INote>(BranchScoreControl.EnumratesAllNote());
+			Measures = new List<IMeasureLine>(BranchScoreControl.EnumratesAllMeasureLine());
 		}
 
 		/// <summary>
@@ -667,13 +668,13 @@ namespace Tatelier.Score.Play.Chart.TJA
 					var dataItem = new HBScrollDrawDataItem()
 					{
 						StartMillisec = bpmInfo.StartMillisec,
-						EndMillisec = bpmInfo.FinishMillisec,
+						FinishMillisec = bpmInfo.FinishMillisec,
 					};
 
 					var currentBPMInfo = bpmInfo;
 
-                    dataItem.StartPoint = branchScore.HBScrollDrawDataControl.ItemList?.LastOrDefault()?.EndPoint ?? currentBPMInfo.GetDivision(dataItem.StartMillisec) * areaWidth;
-					dataItem.EndPoint = dataItem.StartPoint + currentBPMInfo.GetDivision(dataItem.EndMillisec - dataItem.StartMillisec) * areaWidth;
+                    dataItem.StartPoint = branchScore.HBScrollDrawDataControl.ItemList?.LastOrDefault()?.FinishPoint ?? currentBPMInfo.GetDivision(dataItem.StartMillisec) * areaWidth;
+					dataItem.FinishPoint = dataItem.StartPoint + currentBPMInfo.GetDivision(dataItem.FinishMillisec - dataItem.StartMillisec) * areaWidth;
 					dataItem.IsDelay = bpmInfo.IsDelay;
 
 					branchScore.HBScrollDrawDataControl.Add(dataItem);

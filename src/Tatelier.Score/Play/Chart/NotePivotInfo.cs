@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tatelier.Score.Component;
+using Tatelier.Score.Component.NoteSystem;
 
 namespace Tatelier.Score.Play.Chart
 {

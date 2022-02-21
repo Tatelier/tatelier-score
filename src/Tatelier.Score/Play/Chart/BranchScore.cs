@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Tatelier.Score.Component;
+using Tatelier.Score.Component.NoteSystem;
 
 namespace Tatelier.Score.Play.Chart
 {

@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
+using Tatelier.Score.Component.NoteSystem;
 
 namespace Tatelier.Score.Play.Chart
 {
-    [DebuggerDisplay("time:[{StartMillisec} to {EndMillisec}]ms, point:[{StartPoint} to {EndPoint}]px")]
+    [DebuggerDisplay("time:[{StartMillisec} to {FinishMillisec}]ms, point:[{StartPoint} to {FinishPoint}]px")]
 	public class HBScrollDrawDataItem
 	{
 		/// <summary>
@@ -18,28 +19,18 @@ namespace Tatelier.Score.Play.Chart
 		/// <summary>
 		/// 終了時間
 		/// </summary>
-		public int EndMillisec;
+		public int FinishMillisec;
 
 		/// <summary>
 		/// 終了座標
 		/// </summary>
-		public double EndPoint;
+		public double FinishPoint;
 
 		public bool IsDelay = false;
 
 		public bool IsApplicable(int startMillisec, int finishMillisec)
 		{
-			return (StartMillisec <= startMillisec && finishMillisec < EndMillisec);
-
-			// HBSCROLL挙動調査用処理
-			//if (StartMillisec < EndMillisec)
-			//{
-			//	return (StartMillisec <= startMillisec && finishMillisec < EndMillisec);
-			//}
-			//else
-			//{
-			//	return (EndMillisec <= startMillisec && finishMillisec < StartMillisec);
-			//}
+			return (StartMillisec <= startMillisec && finishMillisec < FinishMillisec);
 		}
 
 		public bool IsApplicable(int millisec)
@@ -58,12 +49,12 @@ namespace Tatelier.Score.Play.Chart
 
 		public double GetHBScrollPivotX(double per)
         {
-			return StartPoint + (EndPoint - StartPoint) * per;
+			return StartPoint + (FinishPoint - StartPoint) * per;
 		}
 
 		public double GetElapsedRate(int nowMillisec)
         {
-			return (double)(nowMillisec - StartMillisec) / (EndMillisec - StartMillisec);
+			return (double)(nowMillisec - StartMillisec) / (FinishMillisec - StartMillisec);
 		}
 
 		public HBScrollDrawDataItem()
