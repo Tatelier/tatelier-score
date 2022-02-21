@@ -41,15 +41,15 @@ namespace Tatelier.Score.Play.Chart
 		/// </summary>
 		public SortedDictionary<int, BranchType> BranchTypeList = new SortedDictionary<int, BranchType>();
 
-		public SortedDictionary<int, BranchScoreItem> CommonScoreList = new SortedDictionary<int, BranchScoreItem>();
-		public SortedDictionary<int, BranchScoreItem> NormalScoreList = new SortedDictionary<int, BranchScoreItem>();
-		public SortedDictionary<int, BranchScoreItem> ExpertScoreList = new SortedDictionary<int, BranchScoreItem>();
-		public SortedDictionary<int, BranchScoreItem> MasterScoreList = new SortedDictionary<int, BranchScoreItem>();
+		public SortedDictionary<int, BranchScore> CommonScoreList = new SortedDictionary<int, BranchScore>();
+		public SortedDictionary<int, BranchScore> NormalScoreList = new SortedDictionary<int, BranchScore>();
+		public SortedDictionary<int, BranchScore> ExpertScoreList = new SortedDictionary<int, BranchScore>();
+		public SortedDictionary<int, BranchScore> MasterScoreList = new SortedDictionary<int, BranchScore>();
 
 
 		BranchType nowBranchType;
 
-		public BranchScoreItem NowBranchScoreItem { get; set; }
+		public BranchScore NowBranchScore { get; set; }
 
 		int nowDeadlineIndex = 0;
 
@@ -145,7 +145,7 @@ namespace Tatelier.Score.Play.Chart
 		/// ※未使用
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerable<(BranchType Type, BranchScoreItem Score)> GetBranchTypeScoreList()
+		public IEnumerable<(BranchType Type, BranchScore Score)> GetBranchTypeScoreList()
 		{
 			foreach (var item in CommonScoreList.Values)
 			{
@@ -193,7 +193,7 @@ namespace Tatelier.Score.Play.Chart
 		/// </remarks>
 		/// <returns>分岐譜面リスト</returns>
 #warning Pansystar::共通譜面と分岐譜面の重なりがテレコしているため修正が必要
-		public IEnumerable<BranchScoreItem> GetBranchScoreList()
+		public IEnumerable<BranchScore> GetBranchScoreList()
 		{
 			foreach (var t in BranchTypeList)
 			{
@@ -237,7 +237,7 @@ namespace Tatelier.Score.Play.Chart
 		/// 未使用
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerable<(BranchType BranchType, BranchScoreItem BranchScore)> GetAllBranchScoreList()
+		public IEnumerable<(BranchType BranchType, BranchScore BranchScore)> GetAllBranchScoreList()
 		{
 			foreach (var item in CommonScoreList) yield return (BranchType.Common, item.Value);
 
@@ -250,7 +250,7 @@ namespace Tatelier.Score.Play.Chart
 
 		public BPM GetBPMInfo(int millisec, BranchType branchType)
 		{
-			SortedDictionary<int, BranchScoreItem> list = null;
+			SortedDictionary<int, BranchScore> list = null;
 
 			switch (branchType)
 			{
@@ -278,7 +278,7 @@ namespace Tatelier.Score.Play.Chart
 
 			foreach (var item in list.Values)
 			{
-				foreach(var bpm in item.BPMInfoList)
+				foreach(var bpm in item.BPMList)
 				{
 					if(bpm.StartMillisec <= millisec && millisec < bpm.FinishMillisec)
 					{
@@ -289,7 +289,7 @@ namespace Tatelier.Score.Play.Chart
 
 			foreach(var item in CommonScoreList.Values)
 			{
-				foreach (var bpm in item.BPMInfoList)
+				foreach (var bpm in item.BPMList)
 				{
 					if (bpm.StartMillisec <= millisec && millisec < bpm.FinishMillisec)
 					{

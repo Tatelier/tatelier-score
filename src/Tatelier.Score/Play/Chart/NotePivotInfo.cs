@@ -30,7 +30,7 @@ namespace Tatelier.Score.Play.Chart
 		/// <summary>
 		/// 分岐譜面
 		/// </summary>
-		public BranchScoreItem CurrentBranchScoreItem;
+		public BranchScore CurrentBranchScore;
 
 		/// <summary>
 		/// 分岐種別

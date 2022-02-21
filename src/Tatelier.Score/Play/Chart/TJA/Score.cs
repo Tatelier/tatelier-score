@@ -153,7 +153,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 		{
 			get
 			{
-				var array = new Dictionary<int, BranchScoreItem>();
+				var array = new Dictionary<int, BranchScore>();
 
 				var normal = BranchScoreControl.NormalScoreList;
 				var expert = BranchScoreControl.ExpertScoreList;
@@ -251,13 +251,13 @@ namespace Tatelier.Score.Play.Chart.TJA
 				&& info.PivotMillisec == 0)
 			{
 				info.BPMInfo.Set(info.PivotMillisec, bpm);
-				info.CurrentBranchScoreItem.BPMInfoList.First().Set(info.PivotMillisec, bpm);
+				info.CurrentBranchScore.BPMList.First().Set(info.PivotMillisec, bpm);
 			}
 			else
 			{
 				info.BPMInfo = new BPM(info.PivotMillisec, bpm);
-				info.CurrentBranchScoreItem.BPMInfoList.LastOrDefault()?.SetEndMillisec(info.PivotMillisec);
-				info.CurrentBranchScoreItem.BPMInfoList.Add(info.BPMInfo);
+				info.CurrentBranchScore.BPMList.LastOrDefault()?.SetEndMillisec(info.PivotMillisec);
+				info.CurrentBranchScore.BPMList.Add(info.BPMInfo);
 			}
 
 			return SUCCESS;
@@ -287,8 +287,8 @@ namespace Tatelier.Score.Play.Chart.TJA
 
 
 				info.MeasureInfo = new Measure(info.PivotMillisec, upper, lower);
-				info.CurrentBranchScoreItem.MeasureInfoList.LastOrDefault()?.SetEndMillisec(info.PivotMillisec);
-				info.CurrentBranchScoreItem.MeasureInfoList.Add(info.MeasureInfo);
+				info.CurrentBranchScore.MeasureList.LastOrDefault()?.SetEndMillisec(info.PivotMillisec);
+				info.CurrentBranchScore.MeasureList.Add(info.MeasureInfo);
 
 				return SUCCESS;
 			}
@@ -310,8 +310,8 @@ namespace Tatelier.Score.Play.Chart.TJA
 				}
 
 				info.ScrollSpeedInfo = new ScrollSpeed(info.PivotMillisec, scrollSpeed);
-				info.CurrentBranchScoreItem.ScrollSpeedInfoList.LastOrDefault()?.SetEndMillisec(info.PivotMillisec);
-				info.CurrentBranchScoreItem.ScrollSpeedInfoList.Add(info.ScrollSpeedInfo);
+				info.CurrentBranchScore.ScrollSpeedList.LastOrDefault()?.SetEndMillisec(info.PivotMillisec);
+				info.CurrentBranchScore.ScrollSpeedList.Add(info.ScrollSpeedInfo);
 
 				return SUCCESS;
 			}
@@ -332,14 +332,14 @@ namespace Tatelier.Score.Play.Chart.TJA
 				}
                 if (sec > 0)
                 {
-					var lastBpm = info.CurrentBranchScoreItem.BPMInfoList.LastOrDefault()?.Value ?? 0;
+					var lastBpm = info.CurrentBranchScore.BPMList.LastOrDefault()?.Value ?? 0;
 
 					var pivotMicrosec = info.PivotMicrosec;
 
 					info.PivotMicrosec = info.PrevPivotMicrosec;
 
 					SetBPMCHANGE(info, 0);
-					info.CurrentBranchScoreItem.BPMInfoList.LastOrDefault().IsDelay = true;
+					info.CurrentBranchScore.BPMList.LastOrDefault().IsDelay = true;
 
 					var diff = new decimal(sec) * 1000000m;
 
@@ -400,7 +400,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 			BranchPlayInfoList.Add(playInfo);
 			info.BranchPivot = info.ShallowCopy();
 
-			BranchScoreControl.OneBeforeMeasureTime.Add(info.CurrentBranchScoreItem.Measures.Reverse<IMeasureLine>().FirstOrDefault()?.StartMillisec ?? 0);
+			BranchScoreControl.OneBeforeMeasureTime.Add(info.CurrentBranchScore.Measures.Reverse<IMeasureLine>().FirstOrDefault()?.StartMillisec ?? 0);
 
 			HasBranch = true;
 
@@ -412,8 +412,8 @@ namespace Tatelier.Score.Play.Chart.TJA
 		int SetBRANCHEND(NotePivotInfo info, string[] args)
 		{
 			info.BranchType = BranchType.Common;
-			info.CurrentBranchScoreItem = new BranchScoreItem(info);
-			BranchScoreControl.CommonScoreList[(int)info.PivotMillisec] = info.CurrentBranchScoreItem;
+			info.CurrentBranchScore = new BranchScore(info);
+			BranchScoreControl.CommonScoreList[(int)info.PivotMillisec] = info.CurrentBranchScore;
 
 			return 0;
 		}
@@ -439,18 +439,18 @@ namespace Tatelier.Score.Play.Chart.TJA
 			info.MeasureInfo = info.BranchPivot.MeasureInfo;
 			info.BranchType = type;
 			info.BarLineState = info.BranchPivot.BarLineState;
-			info.CurrentBranchScoreItem = new BranchScoreItem(info);
+			info.CurrentBranchScore = new BranchScore(info);
 
 			switch (type)
 			{
 				case BranchType.Normal:
-					BranchScoreControl.NormalScoreList[(int)info.PivotMillisec] = info.CurrentBranchScoreItem;
+					BranchScoreControl.NormalScoreList[(int)info.PivotMillisec] = info.CurrentBranchScore;
 					break;
 				case BranchType.Expert:
-					BranchScoreControl.ExpertScoreList[(int)info.PivotMillisec] = info.CurrentBranchScoreItem;
+					BranchScoreControl.ExpertScoreList[(int)info.PivotMillisec] = info.CurrentBranchScore;
 					break;
 				case BranchType.Master:
-					BranchScoreControl.MasterScoreList[(int)info.PivotMillisec] = info.CurrentBranchScoreItem;
+					BranchScoreControl.MasterScoreList[(int)info.PivotMillisec] = info.CurrentBranchScore;
 					break;
 				default:
 					// ERROR:
@@ -538,13 +538,13 @@ namespace Tatelier.Score.Play.Chart.TJA
 			notePivotInfo.BPMInfo = new BPM(notePivotInfo.PivotMillisec, info.StartBPM);
 			notePivotInfo.BalloonValueList = new List<int>(info.BalloonCountList);
 
-			notePivotInfo.CurrentBranchScoreItem = new BranchScoreItem(notePivotInfo);
-			notePivotInfo.CurrentBranchScoreItem.BPMInfoList[0] = notePivotInfo.BPMInfo;
-			notePivotInfo.CurrentBranchScoreItem.MeasureInfoList[0] = notePivotInfo.MeasureInfo;
-			notePivotInfo.CurrentBranchScoreItem.ScrollSpeedInfoList[0] = notePivotInfo.ScrollSpeedInfo;
+			notePivotInfo.CurrentBranchScore = new BranchScore(notePivotInfo);
+			notePivotInfo.CurrentBranchScore.BPMList[0] = notePivotInfo.BPMInfo;
+			notePivotInfo.CurrentBranchScore.MeasureList[0] = notePivotInfo.MeasureInfo;
+			notePivotInfo.CurrentBranchScore.ScrollSpeedList[0] = notePivotInfo.ScrollSpeedInfo;
 
 			notePivotInfo.PivotMicrosec = 0;
-			BranchScoreControl.CommonScoreList[0] = notePivotInfo.CurrentBranchScoreItem;
+			BranchScoreControl.CommonScoreList[0] = notePivotInfo.CurrentBranchScore;
 
 			bool isIgnore = false;
 			bool isSharpLine = false;
@@ -641,7 +641,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 						var note = new Note(NoteType.End, notePivotInfo);
 
 						notePivotInfo.PrevNote = note;
-						notePivotInfo.CurrentBranchScoreItem.AddNote(note);
+						notePivotInfo.CurrentBranchScore.AddNote(note);
 					}
 					break;
             }
@@ -661,8 +661,8 @@ namespace Tatelier.Score.Play.Chart.TJA
 			foreach (var branchScore in BranchScoreControl.GetAllBranchScoreList().Select(v => v.BranchScore))
 			{
 				branchScore.HBScrollDrawDataControl.Clear();
-				BPM prevBPMInfo = branchScore.BPMInfoList.FirstOrDefault();
-				foreach (var bpmInfo in branchScore.BPMInfoList)
+				BPM prevBPMInfo = branchScore.BPMList.FirstOrDefault();
+				foreach (var bpmInfo in branchScore.BPMList)
 				{
 					var dataItem = new HBScrollDrawDataItem()
 					{
@@ -867,7 +867,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 			}
 
 			var measure = new MeasureLine(notePivotInfo);
-			notePivotInfo.CurrentBranchScoreItem.AddMeasure(measure);
+			notePivotInfo.CurrentBranchScore.AddMeasure(measure);
 
             if (i == measureSB.Length)
             {
@@ -941,7 +941,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 										var note = new Note(NoteTypeChar.GetNoteType(measureSB[i]), notePivotInfo);
 
 										notePivotInfo.PrevNote = note;
-										notePivotInfo.CurrentBranchScoreItem.AddNote(note);
+										notePivotInfo.CurrentBranchScore.AddNote(note);
 									}
 									break;
 								case NoteTypeChar.Roll:
@@ -955,7 +955,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 											var note = new Note(noteType, notePivotInfo);
 
 											notePivotInfo.PrevNote = note;
-											notePivotInfo.CurrentBranchScoreItem.AddNote(note);
+											notePivotInfo.CurrentBranchScore.AddNote(note);
 
 											if (note.NoteType == NoteType.Balloon)
 											{
@@ -984,7 +984,7 @@ namespace Tatelier.Score.Play.Chart.TJA
 										var note = new Note((NoteType)measureSB[i], notePivotInfo);
 
 										notePivotInfo.PrevNote = note;
-										notePivotInfo.CurrentBranchScoreItem.AddNote(note);
+										notePivotInfo.CurrentBranchScore.AddNote(note);
 									}
 									break;
 							}
