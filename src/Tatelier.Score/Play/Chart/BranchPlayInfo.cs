@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Tatelier.Score.Play.Chart
 {
-	/// <summary>
-	/// 分岐演奏情報
-	/// </summary>
-	[DebuggerDisplay("[{StartMillisec} to {EndMillisec}]ms : {Type}, M:{MasterValue}, E:{ExpertValue}")]
+    /// <summary>
+    /// 分岐演奏情報
+    /// </summary>
+    [DebuggerDisplay("[{StartMillisec} to {EndMillisec}]ms : {Type}, M:{MasterValue}, E:{ExpertValue}")]
 	public class BranchPlayInfo
 	{
 		/// <summary>

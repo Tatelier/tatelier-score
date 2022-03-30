@@ -22,7 +22,7 @@ namespace Tatelier.Score.Component
         /// <summary>
         /// 終了時間(ms)
         /// </summary>
-        public int FinishMillisec { get; private set; } = int.MaxValue;
+        public int FinishMillisec { get; private set; } = 3600000;
 
         /// <summary>
         /// BPM

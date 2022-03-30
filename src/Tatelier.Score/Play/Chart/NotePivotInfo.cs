@@ -11,7 +11,7 @@ namespace Tatelier.Score.Play.Chart
     /// <summary>
     /// パース用情報クラス
     /// </summary>
-    public class NotePivotInfo
+    internal class NotePivotInfo
 	{
 		/// <summary>
 		/// 分岐用の情報
@@ -79,6 +79,7 @@ namespace Tatelier.Score.Play.Chart
 		/// 0～100
 		/// </summary>
 		public int RandomRatio = 70;
+
 
 		public Random Random = new Random();
 

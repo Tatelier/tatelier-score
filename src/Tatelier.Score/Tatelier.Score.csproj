@@ -60,34 +60,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BranchType.cs" />
     <Compile Include="Component\BPM.cs" />
+    <Compile Include="Component\BranchScore.cs" />
+    <Compile Include="Component\BranchScoreControl.cs" />
     <Compile Include="Component\Measure.cs" />
     <Compile Include="Component\NoteSystem\IMeasureLine.cs" />
     <Compile Include="Component\NoteSystem\INote.cs" />
+    <Compile Include="Component\NoteSystem\INoteSystem.cs" />
     <Compile Include="Component\NoteSystem\MeasureLineType.cs" />
     <Compile Include="Component\NoteSystem\NoteTextType.cs" />
     <Compile Include="Component\NoteSystem\NoteType.cs" />
     <Compile Include="Component\ScrollSpeed.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="JudgeType.cs" />
     <Compile Include="Play\Chart\BalloonData.cs" />
     <Compile Include="Play\Chart\BranchPlayInfo.cs" />
-    <Compile Include="Play\Chart\BranchScoreControl.cs" />
-    <Compile Include="Play\Chart\BranchScore.cs" />
-    <Compile Include="Play\Chart\BranchType.cs" />
     <Compile Include="Play\Chart\GogoItem.cs" />
     <Compile Include="Play\Chart\HBScrollDrawDataControl.cs" />
     <Compile Include="Play\Chart\HBScrollDrawDataItem.cs" />
-    <Compile Include="Play\Chart\INoteSystem.cs" />
     <Compile Include="Play\Chart\NotePivotInfo.cs" />
-    <Compile Include="Play\Chart\ScoreType.cs" />
     <Compile Include="Play\Chart\TJA\MeasureLine.cs" />
     <Compile Include="Play\Chart\TJA\Note.cs" />
     <Compile Include="Play\Chart\TJA\Score.cs" />
     <Compile Include="Play\Chart\TJA\TJA.cs" />
     <Compile Include="Play\Chart\TJA\TJAParseException.cs" />
-    <Compile Include="Play\Chart\Utility.cs" />
-    <Compile Include="Play\JudgeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScoreType.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

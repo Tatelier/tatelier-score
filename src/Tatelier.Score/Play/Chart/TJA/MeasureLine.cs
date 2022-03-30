@@ -99,11 +99,11 @@ namespace Tatelier.Score.Play.Chart.TJA
 			MovementPerMillisec = (float)BPMInfo.GetDivision(area);
 		}
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info"></param>
-        public MeasureLine(NotePivotInfo info)
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="info"></param>
+		internal MeasureLine(NotePivotInfo info)
 		{
 			Id = info.MeasureId++;
 			if (info.BranchPivot == null)

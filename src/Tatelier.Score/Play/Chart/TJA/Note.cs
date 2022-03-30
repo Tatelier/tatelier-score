@@ -178,7 +178,7 @@ namespace Tatelier.Score.Play.Chart.TJA
         /// </summary>
         /// <param name="noteType">音符種別</param>
         /// <param name="info"></param>
-        public Note(NoteType noteType, NotePivotInfo info)
+        internal Note(NoteType noteType, NotePivotInfo info)
 		{
 			Id = info.NoteId++;
 			OriginalNoteType = noteType;
